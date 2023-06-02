@@ -1,0 +1,44 @@
+from collections import deque
+
+class Graph:
+    def __init__(self, v):
+        self.V = v
+        self.adj = [[] for _ in range(v)]
+
+    def addEdge(self, v, w):
+        self.adj[v].append(w)
+
+    def BFS(self, s):
+        visited = [False] * self.V
+        self.BFSUtil(s, visited)
+
+    def BFSUtil(self, s, visited):
+        queue = deque()
+        visited[s] = True
+        queue.append(s)
+
+        while queue:
+            s = queue.popleft()
+            print(s, end=" ")
+
+            for n in self.adj[s]:
+                if not visited[n]:
+                    visited[n] = True
+                    queue.append(n)
+
+
+n = int(input("Enter the size of the graph: "))
+g = Graph(n)
+
+size = int(input("Enter the size of input: "))
+for i in range(size):
+    j, k = map(int, input(f"Enter edges {i + 1} of graph: ").split())
+
+    if j < n and k < n:
+        g.addEdge(j, k)
+    else:
+        print("Invalid Input")
+
+start = int(input("Enter the starting vertex: "))
+print("BFS of Graph")
+g.BFS(start)
